@@ -1,0 +1,12 @@
+name: BunnyStorm
+version: "1.0-SNAPSHOT"
+author: JnyJny@XenoLab.com
+main: com.xenolab.BunnyStorm.spigot.plugins.BunnyStormPlugin
+commands:
+  bunnystorm:
+    description: "Create a herd of bunnies."
+    usage: "/bunnystorm is all it takes."
+
+  rabbatoir:
+    description: "Kill all the rabbits in a radius around the player [default: 30 blocks]."
+    usage: "/rabbatoir [radius]"
