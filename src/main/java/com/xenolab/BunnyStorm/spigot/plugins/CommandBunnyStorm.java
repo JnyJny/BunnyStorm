@@ -21,41 +21,27 @@ public class CommandBunnyStorm implements CommandExecutor
   @Override
   public boolean onCommand(CommandSender sender, Command command, String label, String [] args)
   {
+    CommandArguments cmdArgs = new CommandArguments(sender.getServer(), args);
+    
     if ( sender instanceof Player ) {
-      return onPlayerCommand((Player)sender, command, label, args);
+      sender.sendMessage(bunnyStorm((Player)sender, cmdArgs.getCount(), cmdArgs.getRadius()));
+      return true;
     }
 
     if (sender instanceof ServerOperator) {
-      return onConsoleCommand(sender, command, label, args);
+      
+      if (cmdArgs.getPlayer() == null) {
+	sender.sendMessage("Unable to determine location for the bunnystorm!");
+	return true;
+      }
+
+      sender.sendMessage(bunnyStorm(cmdArgs.getPlayer(), cmdArgs.getCount(), cmdArgs.getRadius()));
+      
+      return true;
     }
 
     return false;
   }
-
-
-  private boolean onConsoleCommand(CommandSender sender, Command command, String label, String [] args)
-  {
-    CommandArguments cmdArgs = new CommandArguments(sender.getServer(), args);
-
-    if (cmdArgs.getPlayer() == null) {
-      sender.sendMessage("Unable to determine location for the bunnystorm!");
-      return true;
-    }
-
-    sender.sendMessage(bunnyStorm(cmdArgs.getPlayer(), cmdArgs.getCount(), cmdArgs.getRadius()));
-    
-    return true;
-  }
-
-  private boolean onPlayerCommand(Player player, Command command, String label, String [] args)
-  {
-    CommandArguments cmdArgs = new CommandArguments(player.getServer(), args);
-
-    player.sendMessage(bunnyStorm(player, cmdArgs.getCount(), cmdArgs.getRadius()));
-
-    return true;
-  }
-    
 
   private String bunnyStorm(Player player, int numOfRabbits, int radius)
   {
@@ -70,7 +56,7 @@ public class CommandBunnyStorm implements CommandExecutor
       count ++;
     }
 
-    return String.format("%d rabbits (%d expected) in that storm!", count, numOfRabbits);
+    return String.format("%d rabbits in that storm!", count);
   }
 
 
@@ -95,6 +81,7 @@ public class CommandBunnyStorm implements CommandExecutor
     Rabbit r = world.spawn(block.getLocation(), Rabbit.class);
 	
     r.setAdult();
+    r.setNoDamageTicks(100);
 	
     if ( (percentBaby > 0.0) && (Math.random() < percentBaby))
       r.setBaby();
