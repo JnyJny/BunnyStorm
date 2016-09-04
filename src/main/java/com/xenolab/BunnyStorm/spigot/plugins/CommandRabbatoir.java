@@ -1,12 +1,14 @@
 package com.xenolab.BunnyStorm.spigot.plugins;
 
+import java.util.logging.Level;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Chicken;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Rabbit;
 import org.bukkit.permissions.ServerOperator;
@@ -64,8 +66,9 @@ public class CommandRabbatoir implements CommandExecutor
       for (Entity entity : world.getNearbyEntities(location, radius, radius, radius)) {
 	if (entity instanceof Rabbit) {
 	  Rabbit rabbit = (Rabbit)entity;
-	  rabbit.setHealth(0);
+	  rabbit.remove();	// instead of setHealth(0)
 	  count += 1;
+	  continue;
 	}
       }
 
