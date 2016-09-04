@@ -35,12 +35,22 @@ public class CommandRabbatoir implements CommandExecutor
 
     private boolean onConsoleCommand(CommandSender sender, Command command, String label, String [] args)
     {
+      CommandArguments cmdArgs = new CommandArguments(sender.getServer(), args);
 
+      if (cmdArgs.getPlayer() == null) {
+	sender.sendMessage("Unable to determine a location for rabbatoir!");
+	return true;
+      }
+
+      sender.sendMessage(rabbatoir(cmdArgs.getPlayer(), cmdArgs.getRadius()));
       return true;
     }
 
-    private boolean onPlayerCommand(CommandSender sender, Command command, String label, String [] args)
+    private boolean onPlayerCommand(Player player, Command command, String label, String [] args)
     {
+      CommandArguments cmdArgs = new CommandArguments(null, args);
+
+      player.sendMessage(rabbatoir(player, cmdArgs.getRadius()));
 
       return true;
     }
@@ -63,7 +73,7 @@ public class CommandRabbatoir implements CommandExecutor
 	case 0:
 	  return String.format("No rabbits to kill within %d blocks", radius);
 	default:
-	  return String.format("%d rabbits fall victiom to the Rabbatoir!",count);
+	  return String.format("%d rabbits fall victim to the Rabbatoir!",count);
       }
     }
 }

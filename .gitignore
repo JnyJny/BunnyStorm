@@ -12,6 +12,9 @@ core
 # Maven target directory #
 target
 
+# emacs temp saves
+*~ 
+
 # Files I like to use to capture output
 out
 err
